@@ -1,0 +1,24 @@
+include(GrPlatform)
+include_directories(hdr
+  ${CMAKE_SOURCE_DIR}/liblte/hdr
+  ${CMAKE_SOURCE_DIR}/libtools/hdr
+  ${CMAKE_SOURCE_DIR}/cmn_hdr
+)
+add_executable(LTE_file_recorder
+  src/LTE_file_recorder_main.cc
+  src/LTE_file_recorder_interface.cc
+  src/LTE_file_recorder_flowgraph.cc
+)
+target_link_libraries(LTE_file_recorder
+  lte
+  fftw3f
+  tools
+  pthread
+  log4cpp
+  ${UHD_LIBRARIES}
+  gnuradio-runtime
+  gnuradio-pmt
+  gnuradio-blocks
+  ${GNURADIO_OSMOSDR_LIBRARIES}
+)
+install(TARGETS LTE_file_recorder DESTINATION bin)

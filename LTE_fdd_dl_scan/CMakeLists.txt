@@ -1,0 +1,30 @@
+include(GrPlatform)
+include_directories(hdr
+  ${CMAKE_SOURCE_DIR}/liblte/hdr
+  ${CMAKE_SOURCE_DIR}/libtools/hdr
+  ${CMAKE_SOURCE_DIR}/cmn_hdr
+  ${CMAKE_SOURCE_DIR}/liblte/rrc/EUTRA_RRC_Definitions_a00_gen
+)
+add_executable(LTE_fdd_dl_scan
+  src/LTE_fdd_dl_scan_main.cc
+  src/LTE_fdd_dl_scan_interface.cc
+  src/LTE_fdd_dl_scan_flowgraph.cc
+)
+target_link_libraries(LTE_fdd_dl_scan
+  lte
+  fftw3f
+  tools
+  pthread
+  log4cpp
+  ${UHD_LIBRARIES}
+  gnuradio-runtime
+  gnuradio-blocks
+  gnuradio-pmt
+  gnuradio-filter
+  ${GNURADIO_OSMOSDR_LIBRARIES}
+  EUTRA_RRC_Definitions_a00_lib
+)
+set_target_properties(LTE_fdd_dl_scan PROPERTIES DEFINE_SYMBOL
+  "LTE_fdd_dl_scan_state_machine_EXPORTS"
+)
+install(TARGETS LTE_fdd_dl_scan DESTINATION bin)
